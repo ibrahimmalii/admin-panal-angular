@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-icons',
@@ -34,7 +35,7 @@ export class IconsComponent implements OnInit {
       exData: [''],
     });
 
-    this.http.get('http://localhost:8080/api/medicine').subscribe(response => {
+    this.http.get(`${environment.baseUrl}/api/medicine`).subscribe(response => {
       console.log(response)
       this.medicines = response;
       console.log(this.medicines)
@@ -51,7 +52,7 @@ export class IconsComponent implements OnInit {
     console.log(title, description, quantity, price, companyName, exData)
     console.log('ok')
     if (this.form.valid) {
-      this.http.put(`http://localhost:8080/api/medicine/update/admin/${id}`, { title, description, quantity, price, companyName, exData }).subscribe(response => {
+      this.http.put(`${environment.baseUrl}/api/medicine/update/admin/${id}`, { title, description, quantity, price, companyName, exData }).subscribe(response => {
         console.log(response)
         location.reload()
       })
@@ -71,7 +72,7 @@ export class IconsComponent implements OnInit {
         productFormData.append(key, this.form.controls[key].value)
       })
       console.log(productFormData)
-      this.http.post(`http://localhost:8080/api/medicine`, productFormData).subscribe(response => {
+      this.http.post(`${environment.baseUrl}/api/medicine`, productFormData).subscribe(response => {
         console.log(response)
       })
     }
@@ -81,13 +82,13 @@ export class IconsComponent implements OnInit {
   }
 
   addImage() {
-    this.http.post('http://localhost:8080/upload', this.form.controls.image.value).subscribe(res => {
+    this.http.post(`${environment.baseUrl}/upload`, this.form.controls.image.value).subscribe(res => {
       console.log(res)
     })
   }
 
   deleteItem(id: any) {
-    this.http.delete(`http://localhost:8080/api/medicine/delete/${id}`).subscribe(response => {
+    this.http.delete(`${environment.baseUrl}/api/medicine/delete/${id}`).subscribe(response => {
       console.log(response)
       location.reload()
     })

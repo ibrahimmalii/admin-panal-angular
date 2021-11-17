@@ -8,9 +8,9 @@ import { environment } from './../../environments/environment.prod';
 })
 export class UserService {
 
-  loginUrl = 'http://localhost:8080/api/auth/login';
-  registerUrl = 'http://localhost:8080/api/auth/register';
-  OAuthUrl = 'http://localhost:8080/api/auth/oauthsignup';
+  loginUrl = `${environment.baseUrl}/api/auth/login`;
+  registerUrl = `${environment.baseUrl}/api/auth/register`;
+  OAuthUrl = `${environment.baseUrl}/api/auth/oauthsignup`;
 
   loggedStatus =new Subject<boolean>();
   constructor(private apiService : ApiService) {
