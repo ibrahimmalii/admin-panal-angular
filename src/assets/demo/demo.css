@@ -5,10 +5,10 @@
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/now-ui-dashboard-angular
-* Copyright 2020 Medicare (https://www.creative-tim.com)
+* Copyright 2020 SATA MALL (https://www.creative-tim.com)
 * Licensed under MIT (https://github.com/creativetimofficial/now-ui-dashboard-angular/blob/master/LICENSE.md)
 
-* Coded by Medicare
+* Coded by SATA MALL
 
 =========================================================
 
