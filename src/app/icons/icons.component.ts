@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { environment } from './../../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-icons',
@@ -12,35 +12,25 @@ export class IconsComponent implements OnInit {
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder) { }
 
-  medicines: any;
+  books: any;
   items: any;
   pageOfItems: Array<any>;
   isPageLoaded: boolean = false;
-  bookUpdated: boolean = false;
-  files: any
-  resData:any
+  bookUpdated:boolean = false;
+  categories:any;
 
-  form: FormGroup = new FormGroup({})
+  form : FormGroup = new FormGroup({})
   ngOnInit() {
 
 
-    // Validate Login Form
-    this.form = this.formBuilder.group({
-      title: [''],
-      description: [''],
-      quantity: [''],
-      price: [''],
-      amount: [''],
-      companyName: [''],
-      exData: [''],
-    });
-
-    this.http.get(`${environment.baseUrl}/api/medicine`).subscribe(response => {
-      console.log(response)
-      this.medicines = response;
-      console.log(this.medicines)
+    this.http.get(`${environment.baseUrl}/api/books`).subscribe(response => {
+      this.books = response;
       this.items = Array(150).fill(0).map((x, i) => ({ id: (i + 1), name: `Item ${i + 1}` }));
-      this.isPageLoaded = true
+      this.http.get(`${environment.baseUrl}/api/categories`).subscribe(response=>{
+        this.categories = response
+        console.log(response)
+        this.isPageLoaded = true
+      })
     })
   }
 
@@ -48,47 +38,27 @@ export class IconsComponent implements OnInit {
     this.pageOfItems = pageOfItems;
   }
 
-  updateBook(id: any, title: string, description: string, quantity: any, price: any, companyName: any, exData: any) {
-    console.log(title, description, quantity, price, companyName, exData)
+  updateBook(id:any, title:string, description:string, amount:any, price:any){
     console.log('ok')
-    if (this.form.valid) {
-      this.http.put(`${environment.baseUrl}/api/medicine/update/admin/${id}`, { title, description, quantity, price, companyName, exData }).subscribe(response => {
+    if(this.form.valid){
+      this.http.put(`${environment.baseUrl}/api/books/update/admin/${id}`, {title, description, amount, price}).subscribe(response=>{
         console.log(response)
         location.reload()
       })
     }
   }
 
-  getFiles(event: any) {
-    return this.files = event.target.files[0];
-  }
-
-  addNew(title: string, description: string, quantity: any, price: any, companyName: any, exData: any) {
-
-    console.log(this.form.value)
-    if(this.form.valid){
-      const productFormData = new FormData()
-      Object.keys(this.form.controls).map((key)=>{
-        productFormData.append(key, this.form.controls[key].value)
-      })
-      console.log(productFormData)
-      this.http.post(`${environment.baseUrl}/api/medicine`, productFormData).subscribe(response => {
+  deleteItem(id:any){
+    if(confirm('Are you sure?')){
+      this.http.delete(`${environment.baseUrl}/api/books/delete/${id}`).subscribe(response=>{
         console.log(response)
+        location.reload()
       })
     }
-
-
-
   }
 
-  addImage() {
-    this.http.post(`${environment.baseUrl}/upload`, this.form.controls.image.value).subscribe(res => {
-      console.log(res)
-    })
-  }
-
-  deleteItem(id: any) {
-    this.http.delete(`${environment.baseUrl}/api/medicine/delete/${id}`).subscribe(response => {
+  addNew(rate:any, title:string, author:string, amount:any, price:any, description:string, avatar:any, category:any){
+    this.http.post(`${environment.baseUrl}/api/books`, {rate, title, author, amount, price, description, avatar, category}).subscribe(response=>{
       console.log(response)
       location.reload()
     })
