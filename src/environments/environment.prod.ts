@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'admin-panal-back.herokuapp.com'
+  baseUrl: 'https://admin-panal-back.herokuapp.com'
 };
